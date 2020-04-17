@@ -18,7 +18,7 @@ if [ ! -d "$url/recon/scans" ];then
 fi
 
 if [ ! -f "$url/recon/scans/nmap.txt" ];then
-  touch $url/recon/scans/namp.txt
+  touch $url/recon/scans/nmap.txt
 fi
 
 if [ ! -d "$url/recon/ffuf" ];then
@@ -67,11 +67,11 @@ rm $url/recon/nonfiltereddomains.txt
 echo "[+] Checking for live hosts... Thanks again Tom"
 cat $url/recon/assetfinder/domains.txt | httprobe --prefer-https >> $url/recon/httprobe/a.txt
 sort -u $url/recon/httprobe/a.txt > $url/recon/httprobe/hosts.txt
-cat $url/recon/httprobe/hosts.txt | awk -F '/' '{print $3}' >> $url/recon/scans/nmapscanhosts.txt
+cat $url/recon/httprobe/hosts.txt | awk -F '/' '{print $3}' >> $url/recon/scans/nmaphoststoscan.txt
 rm $url/recon/httprobe/a.txt
 
 echo "[+] Scanning for open ports..."
-nmap -iL $url/recon/scans/nmapscanhosts.txt -T4 -oA $url/recon/scans/nmap.txt
+nmap -iL $url/recon/scans/nmaphoststoscan.txt -T4 -oA $url/recon/scans/nmap.txt
 
 echo "[+] Creating screen shots..."
 # Example  gowitness file --source=urls.txt --threads=4 --resolution="1200,750" --log-format=json --log-level=warn --timeout=60 --destination="Desktop/Screenshots/"
